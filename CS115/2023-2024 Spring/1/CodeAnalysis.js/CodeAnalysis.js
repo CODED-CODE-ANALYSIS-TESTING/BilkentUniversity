@@ -519,7 +519,8 @@ const getFolderName = () => {
         setLoading(true);
         const jwtToken = localStorage.getItem('jwtToken'); 
         try {
-            const response = await fetch('http://localhost:8080/codeanalysis/getAnalysis', {
+          const fileKey = localStorage.getItem('key');
+            const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${fileKey}`, {
                 method: 'GET',
                 headers: {
                   'Authorization': `Bearer ${jwtToken}`
