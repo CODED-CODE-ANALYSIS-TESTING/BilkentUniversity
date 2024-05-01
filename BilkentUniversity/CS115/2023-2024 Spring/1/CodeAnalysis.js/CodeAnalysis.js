@@ -520,6 +520,7 @@ const getFolderName = () => {
         const jwtToken = localStorage.getItem('jwtToken'); 
         try {
           const fileKey = localStorage.getItem('key');
+          setFileName( localStorage.getItem('fileName'));
           console.log("The filekey");
           console.log(fileKey);
           console.log("After filekey");
@@ -532,9 +533,14 @@ const getFolderName = () => {
           const labNo = "1";
           const userId = localStorage.getItem('userId');
           const newKey = `${course}/${semester}/${labNo}/${fileName}`;
-          console.log(newKey);
+          console.log("The newkey");
 
+          console.log(newKey);
+          console.log("The newest key");
+          const newestKey = `/${course}/${semester}/${labNo}/${fileName}`;
           
+          console.log(newestKey);
+
 
             const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${fileKey}`, {
                 method: 'GET',
