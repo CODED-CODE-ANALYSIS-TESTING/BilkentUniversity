@@ -542,7 +542,7 @@ const getFolderName = () => {
           console.log(newestKey);
 
 
-            const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${fileKey}`, {
+            const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${""}`, {
                 method: 'GET',
                 headers: {
                   'Authorization': `Bearer ${jwtToken}`
@@ -553,7 +553,7 @@ const getFolderName = () => {
             }
             const result = await response.json(); // or response.json() if the output is JSON
             setIssues(result);
-            //console.log(result);
+            console.log(result);
             //console.log(result.issues);
            // console.log(result.issues[0]);
            // console.log(result.issues[1]);
