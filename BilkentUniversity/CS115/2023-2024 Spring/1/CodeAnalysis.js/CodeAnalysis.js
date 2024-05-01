@@ -526,6 +526,15 @@ const getFolderName = () => {
           const key = `/${fileKey}`;
 
           console.log(key);
+          
+          const semester = "2023-2024 Spring";
+          const course = "CS115";
+          const labNo = "1";
+          const userId = localStorage.getItem('userId');
+          const newKey = `${course}/${semester}/${labNo}/${fileName}`;
+          console.log(newKey);
+
+          
 
             const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${fileKey}`, {
                 method: 'GET',
