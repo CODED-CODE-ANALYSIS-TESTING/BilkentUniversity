@@ -15,10 +15,10 @@ def basic_arithmetic():
 
 # Task 3: Input and Output
 def greet_and_predict_age():
-    name = input("What is your name? ");
+    name = input("What is your name? ")
     age = int(input("How old are you? "))
     age_in_five_years = age + 5
-    print(f"Hello {name}! You are {age} years old now, and you will be {age_in_five_years} in five years.)
+    print(f"Hello {name}! You are {age} years old now, and you will be {age_in_five_years} in five years.")
 
 # Main function to run the tasks
 def main():
