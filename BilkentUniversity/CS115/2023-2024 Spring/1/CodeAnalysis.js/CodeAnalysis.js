@@ -10,6 +10,13 @@ import { SonarQubeIssue } from "./SonarQubeIssue";
 import Bubble from "./Bubble";
 import './Bubble.css';
 
+//sonarQubeData.issues.rule
+//sonarQube.issues.message
+//sonarQube.line
+//sonarQube.issues.textRange.startLine
+//sonarQube.issues.textRange.endLine
+//sonarQube.issues.textRange.startOffset
+//sonarQube.issues.textRange.endOffset
 
 const CodeAnalysis = () => {
   const [enrollButtonHovered, setEnrollButtonHovered] = useState(false);
@@ -21,8 +28,6 @@ const CodeAnalysis = () => {
   const [selectedLine, setSelectedLine] = useState(null);
   const [explanation, setExplanation] = useState("");
   const [issues, setIssues] = useState([]);
-  const [initialIssues, setInitial] = useState([]);
-
   const [hoveredLine, setHoveredLine] = useState(null);
   const [bubbles, setBubbles] = useState([]);
   const [activeIssue, setActiveIssue] = useState(null);
@@ -37,7 +42,323 @@ const CodeAnalysis = () => {
   const [fileName, setFileName] = useState(null);
 
   const codeLines = studentCode.split("\n");
+  /*/const fetchData = () => {
+    const sonarQubeData = {
+      paging: {
+        pageIndex: 1,
+        pageSize: 100,
+        total: 1,
+      },
+      issues: [
+        {
+          key: "01fc972e-2a3c-433e-bcae-0bd7f88f5123",
+          component:
+            "com.github.kevinsawicki:http-request:com.github.kevinsawicki.http.HttpRequest",
+          project: "com.github.kevinsawicki:http-request",
+          rule: "java:S1144",
+          cleanCodeAttribute: "CLEAR",
+          cleanCodeAttributeCategory: "INTENTIONAL",
+          issueStatus: "ACCEPTED",
+          impacts: [
+            {
+              softwareQuality: "SECURITY",
+              severity: "HIGH",
+            },
+          ],
+          message: "Code smell due to mistake here.",
+          messageFormattings: [
+            {
+              start: 0,
+              end: 4,
+              type: "CODE",
+            },
+          ],
+          line: 81,
+          hash: "a227e508d6646b55a086ee11d63b21e9",
+          author: "Developer 1",
+          effort: "2h1min",
+          creationDate: "2013-05-13T17:55:39+0200",
+          updateDate: "2013-05-13T17:55:39+0200",
+          tags: ["bug"],
+          comments: [
+            {
+              key: "7d7c56f5-7b5a-41b9-87f8-36fa70caa5ba",
+              login: "john.smith",
+              htmlText: 'Must be "public"!',
+              markdown: 'Must be "public"!',
+              updatable: false,
+              createdAt: "2013-05-13T18:08:34+0200",
+            },
+          ],
+          attr: {
+            "jira-issue-key": "SONAR-1234",
+          },
+          transitions: ["reopen"],
+          actions: ["comment"],
+          textRange: {
+            startLine: 12,
+            endLine: 20,
+            startOffset: 0,
+            endOffset: 32,
+          },
+          flows: [
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 16,
+                    endLine: 16,
+                    startOffset: 0,
+                    endOffset: 30,
+                  },
+                  msg: "Expected position: 5",
+                  msgFormattings: [
+                    {
+                      start: 0,
+                      end: 4,
+                      type: "CODE",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 15,
+                    endLine: 15,
+                    startOffset: 0,
+                    endOffset: 37,
+                  },
+                  msg: "Expected position: 6",
+                  msgFormattings: [],
+                },
+              ],
+            },
+          ],
+          quickFixAvailable: false,
+          ruleDescriptionContextKey: "spring",
+          codeVariants: ["windows", "linux"],
+        },
+        {
+          key: "01fc972e-2a3c-433e-bcae-0bd7f88f5123",
+          component:
+            "com.github.kevinsawicki:http-request:com.github.kevinsawicki.http.HttpRequest",
+          project: "com.github.kevinsawicki:http-request",
+          rule: "java:S1144",
+          cleanCodeAttribute: "CLEAR",
+          cleanCodeAttributeCategory: "INTENTIONAL",
+          issueStatus: "ACCEPTED",
+          impacts: [
+            {
+              softwareQuality: "SECURITY",
+              severity: "HIGH",
+            },
+          ],
+          message: "No documentation comment",
+          messageFormattings: [
+            {
+              start: 0,
+              end: 4,
+              type: "CODE",
+            },
+          ],
+          line: 81,
+          hash: "a227e508d6646b55a086ee11d63b21e9",
+          author: "Developer 1",
+          effort: "2h1min",
+          creationDate: "2013-05-13T17:55:39+0200",
+          updateDate: "2013-05-13T17:55:39+0200",
+          tags: ["bug"],
+          comments: [
+            {
+              key: "7d7c56f5-7b5a-41b9-87f8-36fa70caa5ba",
+              login: "john.smith",
+              htmlText: 'Must be "public"!',
+              markdown: 'Must be "public"!',
+              updatable: false,
+              createdAt: "2013-05-13T18:08:34+0200",
+            },
+          ],
+          attr: {
+            "jira-issue-key": "SONAR-1234",
+          },
+          transitions: ["reopen"],
+          actions: ["comment"],
+          textRange: {
+            startLine: 1,
+            endLine: 5,
+            startOffset: 0,
+            endOffset: 32,
+          },
+          flows: [
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 16,
+                    endLine: 16,
+                    startOffset: 0,
+                    endOffset: 30,
+                  },
+                  msg: "Expected position: 5",
+                  msgFormattings: [
+                    {
+                      start: 0,
+                      end: 4,
+                      type: "CODE",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 15,
+                    endLine: 15,
+                    startOffset: 0,
+                    endOffset: 37,
+                  },
+                  msg: "Expected position: 6",
+                  msgFormattings: [],
+                },
+              ],
+            },
+          ],
+          quickFixAvailable: false,
+          ruleDescriptionContextKey: "spring",
+          codeVariants: ["windows", "linux"],
+        },
+        {
+          key: "01fc972e-2a3c-433e-bcae-0bd7f88f5123",
+          component:
+            "com.github.kevinsawicki:http-request:com.github.kevinsawicki.http.HttpRequest",
+          project: "com.github.kevinsawicki:http-request",
+          rule: "java:S1144",
+          cleanCodeAttribute: "CLEAR",
+          cleanCodeAttributeCategory: "INTENTIONAL",
+          issueStatus: "ACCEPTED",
+          impacts: [
+            {
+              softwareQuality: "SECURITY",
+              severity: "HIGH",
+            },
+          ],
+          message: "Code smell due to mistake here.",
+          messageFormattings: [
+            {
+              start: 0,
+              end: 4,
+              type: "CODE",
+            },
+          ],
+          line: 81,
+          hash: "a227e508d6646b55a086ee11d63b21e9",
+          author: "Developer 1",
+          effort: "2h1min",
+          creationDate: "2013-05-13T17:55:39+0200",
+          updateDate: "2013-05-13T17:55:39+0200",
+          tags: ["bug"],
+          comments: [
+            {
+              key: "7d7c56f5-7b5a-41b9-87f8-36fa70caa5ba",
+              login: "john.smith",
+              htmlText: 'Must be "public"!',
+              markdown: 'Must be "public"!',
+              updatable: false,
+              createdAt: "2013-05-13T18:08:34+0200",
+            },
+          ],
+          attr: {
+            "jira-issue-key": "SONAR-1234",
+          },
+          transitions: ["reopen"],
+          actions: ["comment"],
+          textRange: {
+            startLine: 30,
+            endLine: 35,
+            startOffset: 0,
+            endOffset: 32,
+          },
+          flows: [
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 16,
+                    endLine: 16,
+                    startOffset: 0,
+                    endOffset: 30,
+                  },
+                  msg: "Expected position: 5",
+                  msgFormattings: [
+                    {
+                      start: 0,
+                      end: 4,
+                      type: "CODE",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              locations: [
+                {
+                  textRange: {
+                    startLine: 15,
+                    endLine: 15,
+                    startOffset: 0,
+                    endOffset: 37,
+                  },
+                  msg: "Expected position: 6",
+                  msgFormattings: [],
+                },
+              ],
+            },
+          ],
+          quickFixAvailable: false,
+          ruleDescriptionContextKey: "spring",
+          codeVariants: ["windows", "linux"],
+        },
+      ],
+      components: [
+        {
+          key: "com.github.kevinsawicki:http-request:src/main/java/com/github/kevinsawicki/http/HttpRequest.java",
+          enabled: true,
+          qualifier: "FIL",
+          name: "HttpRequest.java",
+          longName:
+            "src/main/java/com/github/kevinsawicki/http/HttpRequest.java",
+          path: "src/main/java/com/github/kevinsawicki/http/HttpRequest.java",
+        },
+        {
+          key: "com.github.kevinsawicki:http-request",
+          enabled: true,
+          qualifier: "TRK",
+          name: "http-request",
+          longName: "http-request",
+        },
+      ],
+      rules: [
+        {
+          key: "java:S1144",
+          name: 'Unused "private" methods should be removed',
+          status: "READY",
+          lang: "java",
+          langName: "Java",
+        },
+      ],
+    };
 
+    setIssues(sonarQubeData.issues.map((data) => new SonarQubeIssue(data)));
+    //console.log("Inside fetchdata");
+   // console.log(sonarQubeData.issues);
+    //console.log("After sonarQubeData");
+    // console.log(issues);
+  };*/
   const toggleSwitch = () => {
     setDarkMode(!isDarkMode);
   };
@@ -142,29 +463,6 @@ const getFolderName = () => {
     return props;
   };
   
-  
-  function parseIssue( fileName) {
-    const matchingIssues = initialIssues.filter(issue => {
-      const slashIndex = issue.component.lastIndexOf('/');
-      const substringAfterSlash = issue.component.substring(slashIndex + 1);
-
-      console.log("Extracted substring:", substringAfterSlash);
-
-      if (substringAfterSlash === fileName) {
-          console.log(`Match found: ${substringAfterSlash}`);
-          return true; // This issue matches the fileName
-      } else {
-          console.log(`No match for: ${substringAfterSlash}`);
-          return false; // This issue does not match the fileName
-      }
-  });
-
-  // Update the state with all matching issues
-  setIssues(matchingIssues);
-};
-
-  
-  
   function getFileNameFromPath(path) {
     // Check if the path is null or empty
     if (!path) {
@@ -221,30 +519,7 @@ const getFolderName = () => {
         setLoading(true);
         const jwtToken = localStorage.getItem('jwtToken'); 
         try {
-          const fileKey = localStorage.getItem('key');
-          setFileName( localStorage.getItem('fileName'));
-          console.log("The filekey");
-          console.log(fileKey);
-          console.log("After filekey");
-          const key = `/${fileKey}`;
-
-          console.log(key);
-          
-          const semester = "2023-2024 Spring";
-          const course = "CS115";
-          const labNo = "1";
-          const userId = localStorage.getItem('userId');
-          const newKey = `${course}/${semester}/${labNo}/${fileName}`;
-          console.log("The newkey");
-
-          console.log(newKey);
-          console.log("The newest key");
-          const newestKey = `/${course}/${semester}/${labNo}/${fileName}`;
-          
-          console.log(newestKey);
-
-
-            const response = await fetch(`http://localhost:8080/codeanalysis/getAnalysis?filekey=${""}`, {
+            const response = await fetch('http://localhost:8080/codeanalysis/getAnalysis', {
                 method: 'GET',
                 headers: {
                   'Authorization': `Bearer ${jwtToken}`
@@ -254,20 +529,18 @@ const getFolderName = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const result = await response.json(); // or response.json() if the output is JSON
-            //setIssues(result);
-            //console.log(result.issues);
+            setIssues(result);
+            //console.log(result);
             //console.log(result.issues);
            // console.log(result.issues[0]);
            // console.log(result.issues[1]);
            // console.log(result.issues[2]);
             //console.log(typeof issues);
             const issuesArray = Array.from(result.issues);
-            setInitial(issuesArray);
-            //setIssues(issuesArray);
-            initialIssues.forEach(initialIssue => console.log(initialIssues.component));
-           
-            
-            parseIssue( fileName);
+
+            setIssues(issuesArray);
+            issues.forEach(issue => console.log(issue));
+
           
             if (issues && Array.isArray(issues)) {
               //console.log("data is data and is array");
