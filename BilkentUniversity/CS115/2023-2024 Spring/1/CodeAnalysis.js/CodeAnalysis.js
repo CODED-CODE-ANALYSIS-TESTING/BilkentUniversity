@@ -239,9 +239,7 @@ const CodeAnalysis = () => {
       //const course = "CS115";//burasi ctis152 olacak
       const course = localStorage.getItem('courseCode'); 
       console.log("The course ", course,"after");
-      //const labNo = "1";
-      const labNo = localStorage.getItem('labNo');
-      console.log("the labno inside fetchdata ", labNo);
+      const labNo = "1";
       const userId = localStorage.getItem("userId");
       const newKey = `${course}/${semester}/${labNo}/${localStorage.getItem("fileName")}`;
       console.log("The newkey");
@@ -312,10 +310,12 @@ const CodeAnalysis = () => {
         const slashIndex = issue.component.lastIndexOf("/");
         const substringAfterSlash = issue.component.substring(slashIndex + 1);
         return substringAfterSlash === fileName;
-      });
+      });  
+      
+      //console
     
       if (matchingIssues.length === 0) {
-        console.log("no matching issues");
+        console.log("no matching issues"); 
       } else {
         console.log(matchingIssues);
   
