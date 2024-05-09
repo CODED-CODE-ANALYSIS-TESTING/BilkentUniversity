@@ -1,63 +1,42 @@
 #define _CRT_SECURE_NO_WARNINGS
-
-#define ARR_LENGTH 5
-
 #include <stdio.h>
 
-int readFromFile(FILE* file, int ids[], double points[][ARR_LENGTH])
-{
-	int i;
-	for (i = 0; i < ARR_LENGTH; i++)
-	{
-		fscanf(file, "%d", &ids[i]);
-		for (int j = 1; j < ARR_LENGTH; j++)
-			fscanf(file, "%lf", &points[i][j]);
+int summation(int num1, int num2) {
+	int total=0;
+	for (int i = 1; i <= num1; i++) {
+		total += num2;
 	}
-
-	return i + 1;
+	return total;
 }
 
-void display(int ids[], double points[][ARR_LENGTH])
-{
-	printf("ID %c R %c L %c S %c W %c ELIGIBLE %c OVERALL\n", ' ', ' ', ' ', ' ', ' ', ' ');
-	printf("------------------------------------------------------------\n");
+int subtraction(int num1, int num2) {
+	while (num2 >= num1) {
+		num2 -= num1;
+	}
+	return num2;
+}
 
-	int i, j;
-	for (i = 0; i < ARR_LENGTH; i++)
-	{
-		double sum = 0;
-		printf("%4d", ids[i]);
+int main(void) {
+	int num1, num2,total;	
 
-		for (j = 1; j < ARR_LENGTH; j++)
-		{
-			sum += points[i][j];
-			printf("%6.2f", points[i][j]);
-		}
+	do {
+		printf("Enter the num1 and num2: ");
+		scanf(" %d %d", &num1, &num2);
 		
-		int counter = j - 1;
-		if (sum / counter >= 6.5)
-			printf("%4c", 'Y');
-		else
-			printf("%4c", 'N');
+		if (num1 > num2) {
+			total=summation(num1, num2);
+			printf("%d > %d => Result of Operation: %d\n", num1, num2, total);
+		}
+		else if (num1 < num2) {
+			total=subtraction(num1, num2);
+			printf("%d < %d => Result of Operation: %d\n", num1, num2, total);
+		}
+		else {
+			printf("Goodbyee :D");
+			break;
+		}
 
-		printf("%7.2f\n", sum / counter);
-	}
-}
-
-int main(void)
-{
-	FILE* ieltsFile = fopen("ielts.txt", "r");
-
-	if (ieltsFile == NULL)
-		printf("File could not be opened!");
-	else 
-	{
-		int ids[ARR_LENGTH];
-		double points[ARR_LENGTH][ARR_LENGTH];
-
-		readFromFile(ieltsFile, ids, points);
-		display(ids, points);
-	}
+	} while (num1 != num2);
 
 	return 0;
 }
