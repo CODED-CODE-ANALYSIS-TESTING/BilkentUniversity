@@ -1,51 +1,39 @@
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
-#define MAX_STD_NUM 100
-#define NUM_OF_EXAMS 4
 
-void readFromFile(FILE *ielts, int id[], double points[][NUM_OF_EXAMS])
-{
-	int k = 0, l = 0;
-	int status;
-	char endrow;
-	status;
-	
-	while (scanf(ielts, "%d %lf %lf %lf %lf", &id[k], &points[k][0], &points[k][1], &points[k][2], &points[k][3]) != EOF)
-	{
-	{
-		k++;
+#define MAX_STUDENTS 100
+
+int readFromFile(FILE *file, int ids[], double points[][4]) {
+	int count = 0;
+	while (fscanf(file, "%d %lf %lf %lf %lf", &ids[count], &points[count][0], &points[count][1], &points[count][2], &points[count][3]) == 5) {
+		count++;
 	}
-
-
+	return count;
 }
 
+void display(int ids[], double points[][4], int numStudents) {
+	printf("ID\tR\tL\tS\tW\tELIGIBLE\tOVERALL\n");
+	printf("---------------------------------------------------------\n");
+	for (int i = 0; i < numStudents; i++) {
+		double average = (points[i][0] + points[i][1] + points[i][2] + points[i][3]) / 4.0;
+		char eligible = (average >= 6.5) ? 'Y' : 'N'; 
+		printf("%d\t%.2lf\t%.2lf\t%.2lf\t%.2lf\t%c\t\t%.2lf\n", ids[i], points[i][0], points[i][1], points[i][2], points[i][3], eligible, average);
+	}
+}
 
-
-
-
-int main(void)
-{
-	FILE* inp = fopen("ielts.txt", "r");
-
-	if (inp == NULL)
-		printf("ERROR!");
-
-	else
-	{
-		int id[MAX_STD_NUM];
-		double points[MAX_STD_NUM][NUM_OF_EXAMS];
-
-
-		readFromFile(inp, id, points);
-
-		for (int i = 0; i < 4; i++)
-			printf("%d\n", id[i]);
-
+int main() {
+	FILE *file = fopen("ielts.txt", "r");
+	if (file == NULL) {
+		printf("Error opening file.\n");
+		return -1;
 	}
 
+	int ids[MAX_STUDENTS];
+	double points[MAX_STUDENTS][4];
+	int numStudents = readFromFile(file, ids, points);
 
+	display(ids, points, numStudents);
 
-
+	fclose(file);
 	return 0;
 }
