@@ -1,46 +1,63 @@
 #define _CRT_SECURE_NO_WARNINGS
+
+#define ID_ARRAY_SIZE 5
+#define ARR_SIZE 4
 #include <stdio.h>
-#define SIZE 10
-#define COL 4
-int readfromFile(FILE* file, int id[SIZE], double point[SIZE][COL])
+
+int readFromFile(FILE *inpFile, int *id, double points[ARR_SIZE][ARR_SIZE])
 {
-	int i = 0;
-	while (fscanf(file, "%d %lf %lf %lf %lf", &id[i], &point[i][0], &point[i][1], &point[i][2], &point[i][3]) != EOF)
+	int count = 0;
+	
+	while (fscanf(inpFile, "%d %lf %lf %lf %lf", &id[count], &points[count][0], &points[count][1], &points[count][2], &points[count][3]) != EOF)
 	{
-		i++;
-		fscanf(file, "%d %lf %lf %lf %lf", &id[i], &point[i][0], &point[i][1], &point[i][2], &point[i][3]);
+		count++;
 	}
-	return(i);
+	count++;
+	return count;
 }
-void display(int id[], double point[SIZE][COL], int num)
+
+void display(int *ids, double points[ARR_SIZE][ARR_SIZE], int numOfStudents)
 {
-	char elig;
-	double avg, sum = 0;
-	printf("ID  R    L     S     W ELIGIBLE OVERALL\n-----------------------------------------------------------------\n");
-	for (int i = 0; i < num; i++)
+	double avg = 0;
+
+	printf("ID\tR\tL\tS\tW\tELIGIBLE\tOVERALL  ");
+	printf("\n------------------------------------------------------------------");
+	for (int i = 0; i < numOfStudents; i++)
 	{
-		sum += point[i][0] + point[i][1] + point[i][2] + point[i][3];
-		avg = sum / COL;
-		if (avg > 6.5)
-			elig = 'Y';
+		avg = 0;
+		printf("\n%d", ids[i]);
+		for (int j = 0; j < ARR_SIZE; j++)
+		{
+			printf("\t%.2f", points[i][j]);
+			avg += points[i][j];
+		}
+		avg /= ARR_SIZE;
+
+		if (avg >= 6.5)
+			printf("\tY");
 		else
-			elig = 'N';
-		printf("%3d %2.2f %2.2f %2.2f %2.2f %6c %5.2f\n", id[i], point[i][0], point[i][1], point[i][2], point[i][3], elig, avg);
-		sum = 0;
+			printf("\tN");
+
+		printf("\t%.2f", avg);
+		printf("\n");
 	}
 }
-int main(void)
+
+int main() 
 {
-	FILE* file = fopen("ielts.txt", "r");
-	if (file == NULL)
-		printf("Couldn't open");
-	else
-	{
-		int num, id[SIZE];
-		double point[SIZE][COL];
-		num = readfromFile(file, id, point);
-		display(id, point, num);
-		fclose(file);
-		return(0);
+	FILE *inpFile = fopen("ielts.txt", "r");
+
+	int ids[ID_ARRAY_SIZE];
+	double points[ID_ARRAY_SIZE][ARR_SIZE];
+
+	int stuCount;
+
+	if (inpFile == NULL) {
+		printf("CAN'T OPEN THE SPECIFIED FILE. Closing the program.");
 	}
+	else {
+		stuCount = readFromFile(inpFile, ids, points);
+		display(ids , points , stuCount);
+	}
+	return 0;
 }
