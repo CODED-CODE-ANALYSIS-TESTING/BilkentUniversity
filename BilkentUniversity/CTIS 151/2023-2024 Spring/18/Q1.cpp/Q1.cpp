@@ -1,68 +1,51 @@
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
-#define SIZE 4
-#define MAX 99
+#define MAX_STD_NUM 100
+#define NUM_OF_EXAMS 4
 
-
-int readFromFile(double grades[][4], int id[], FILE *file)
+void readFromFile(FILE *ielts, int id[], double points[][NUM_OF_EXAMS])
 {
-	int i = 0;
-
-
-	while (fscanf(file, "%d %d %d %d %d", &id[i], &grades[i][1], &grades[i][2], &grades[i][3], &grades[i][4]) != EOF)
-	{
-		i++;
-	};
-	return(i);
-}
-
-void display(double grades[][4], int id[], int numOfStudents, char ch[], double avg[])
-{
-	int r, c;
+	int k = 0, l = 0;
+	int status;
+	char endrow;
+	status;
 	
-	printf("ID \t R \t L \t S \t W \t ELIGIBLE \t OVERALL\n --------------------------------------\n");
-	for (r = 0; r < numOfStudents; r++)
-		for (c = 0; c < 5; c++)
-			printf("%d \t %.2f \t %.2f \t %.2f \t %.2f \t %c \t %.2f", id[r], grades[r][1], grades[r][2], grades[r][3], grades[r][4], ch, avg[r]);
+	while (scanf(ielts, "%d %lf %lf %lf %lf", &id[k], &points[k][0], &points[k][1], &points[k][2], &points[k][3]) != EOF)
+	{
+	{
+		k++;
+	}
+
+
 }
+
+
+
 
 
 int main(void)
 {
-	FILE * file = fopen("ielts.txt", "r");
-	double grades[MAX][SIZE];
-	int id[MAX];
-	int num;
-	double sum[MAX];
-	double avg[MAX];
-	char ch[MAX];
-	if (file == NULL)
-		printf("Cannot open");
+	FILE* inp = fopen("ielts.txt", "r");
+
+	if (inp == NULL)
+		printf("ERROR!");
+
 	else
 	{
-		int r, c;
+		int id[MAX_STD_NUM];
+		double points[MAX_STD_NUM][NUM_OF_EXAMS];
 
 
-		num = readFromFile(grades, id, file);
-		for (r = 0; r < num; r++)
-		{
-			for (c = 1; c < 5; c++)
-			{
-				sum[r] += grades[r][c];
-			}
-			avg[r] = sum[r] / 4;
-			if (avg[r] > 6.5)
-				ch[r] = 'Y';
-			else 
-				ch[r] = 'N';
-		}
+		readFromFile(inp, id, points);
 
-		display(grades, id, num, ch, avg);
-			
-		fclose(file);
+		for (int i = 0; i < 4; i++)
+			printf("%d\n", id[i]);
+
 	}
-	return(0);
+
+
+
+
+	return 0;
 }
-
-
-
